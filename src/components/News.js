@@ -9,7 +9,7 @@ export class News extends Component {
       articles: [],
       loading: false,
       page: 1,
-      pageSize: 10,
+      pageSize: 9,
       maxPages: 1,
       
     };
@@ -22,7 +22,8 @@ export class News extends Component {
     let parsedData = await loadApi(
       this.state.page,
       this.state.pageSize,
-      this.props.country
+      this.props.country,
+      this.props.category
     );
     this.setState({
       articles: parsedData.articles,
@@ -39,7 +40,8 @@ export class News extends Component {
     let parsedData = await loadApi(
       this.state.page + 1,
       this.state.pageSize,
-      this.props.country
+      this.props.country,
+      this.props.category
     );
     this.setState({
       page: this.state.page + 1,
@@ -56,7 +58,8 @@ export class News extends Component {
     let parsedData = await loadApi(
       this.state.page - 1,
       this.state.pageSize,
-      this.props.country
+      this.props.country,
+      this.props.category
     );
     this.setState({
       page: this.state.page - 1,
@@ -199,11 +202,12 @@ export class News extends Component {
   }
 }
 
-async function loadApi(page, pageSize, country) {
-  let apiUrl = `https://newsapi.org/v2/top-headlines?country=${country}&page=${page}&pageSize=${pageSize}`;
+async function loadApi(page, pageSize, country,category) {
+  let apiUrl = `https://newsapi.org/v2/top-headlines?country=${country}&page=${page}&pageSize=${pageSize}&category=${category}`;
   let data = await fetch(apiUrl, {
     headers: {
-      "X-Api-Key": "527b2700670e493d91b09cc687055fe6",
+      // "X-Api-Key": "527b2700670e493d91b09cc687055fe6",
+      "X-Api-Key": "1c8d75da1fd042c99319f91100e913bb",
     },
   });
   let parsedData = await data.json();
@@ -211,3 +215,7 @@ async function loadApi(page, pageSize, country) {
 }
 
 export default News;
+
+
+
+
