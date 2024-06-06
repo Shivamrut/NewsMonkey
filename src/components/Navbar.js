@@ -2,11 +2,13 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 
 export class Navbar extends Component {
+  handleCountry = (country) => {
+    this.props.handleCountry(country);
+  };
+  handleCategory = (category) => {
+    this.props.handleCategory(category);
+  };
 
-  handleCountry=(country)=>{
-    this.props.handleCountry(country)
-  }
-  
   render() {
     return (
       <>
@@ -49,13 +51,44 @@ export class Navbar extends Component {
                   </Link>
                   <ul className="dropdown-menu">
                     <li>
-                      <Link className="dropdown-item" onClick={()=>{this.handleCountry("in")}}>India</Link>
+                      <Link
+                        className="dropdown-item"
+                        onClick={() => {
+                          this.handleCountry("in");
+                        }}
+                      >
+                        India
+                      </Link>
                     </li>
                     <li>
-                      <Link className="dropdown-item" onClick={()=>{this.handleCountry("gb")}}>UK</Link>
+                      <Link
+                        className="dropdown-item"
+                        onClick={() => {
+                          this.handleCountry("gb");
+                        }}
+                      >
+                        UK
+                      </Link>
                     </li>
                     <li>
-                      <Link className="dropdown-item" onClick={()=>{this.handleCountry("us")}}>USA</Link>
+                      <Link
+                        className="dropdown-item"
+                        onClick={() => {
+                          this.handleCountry("us");
+                        }}
+                      >
+                        USA
+                      </Link>
+                    </li>
+                    <li>
+                      <Link
+                        className="dropdown-item"
+                        onClick={() => {
+                          this.handleCountry("jp");
+                        }}
+                      >
+                        Japan
+                      </Link>
                     </li>
                   </ul>
                 </li>
@@ -70,11 +103,87 @@ export class Navbar extends Component {
                     Topic
                   </Link>
                   <ul className="dropdown-menu">
-                    <LiItem title="General" link="/" />
-                    <LiItem title="Tech" link="/technology" />
-                    <LiItem title="Business" link="/business" />
-                    <LiItem title="Sports" link="/sports" />
-                    <LiItem title="Entertainment" link="/entertainment" />
+                    <li>
+                      <Link
+                        className="dropdown-item"
+                        onClick={() => {
+                          this.handleCategory("general");
+                        }}
+                      >
+                        General
+                      </Link>
+                    </li>
+                    <li>
+                      <Link
+                        className="dropdown-item"
+                        onClick={() => {
+                          this.handleCategory("sports");
+                        }}
+                      >
+                        Sports
+                      </Link>
+                    </li>
+                    <li>
+                      <Link
+                        className="dropdown-item"
+                        onClick={() => {
+                          this.handleCategory("general");
+                        }}
+                      >
+                        General
+                      </Link>
+                    </li>
+                    <li>
+                      <Link
+                        className="dropdown-item"
+                        onClick={() => {
+                          this.handleCategory("technology");
+                        }}
+                      >
+                        Tech
+                      </Link>
+                    </li>
+                    <li>
+                      <Link
+                        className="dropdown-item"
+                        onClick={() => {
+                          this.handleCategory("business");
+                        }}
+                      >
+                        Business
+                      </Link>
+                    </li>
+                    <li>
+                      <Link
+                        className="dropdown-item"
+                        onClick={() => {
+                          this.handleCategory("entertainment");
+                        }}
+                      >
+                        Entertainment
+                      </Link>
+                    </li>
+                    <li>
+                      <Link
+                        className="dropdown-item"
+                        onClick={() => {
+                          this.handleCategory("health");
+                        }}
+                      >
+                        Health
+                      </Link>
+                    </li>
+                    <li>
+                      <Link
+                        className="dropdown-item"
+                        onClick={() => {
+                          this.handleCategory("science");
+                        }}
+                      >
+                        Science
+                      </Link>
+                    </li>
+                    
                   </ul>
                 </li>
               </ul>
@@ -88,14 +197,4 @@ export class Navbar extends Component {
 
 export default Navbar;
 
-function LiItem(props) {
-  return (
-    <>
-      <li>
-        <Link className="dropdown-item" to={props.link}>
-          {props.title}
-        </Link>
-      </li>
-    </>
-  );
-}
+

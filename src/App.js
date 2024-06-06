@@ -8,7 +8,7 @@ export default class App extends Component {
     super();
     this.state = {
       country: "in",
-      // category: "general",
+      category: "general",
     };
   }
   handleCountry = (country) => {
@@ -17,13 +17,19 @@ export default class App extends Component {
       country: country,
     });
   };
+  handleCategory = (category) => {
+    this.setState({
+      category:category
+    });
+  };
+
 
   // }
   render() {
     return (
       <>
         <Router>
-          <Navbar handleCountry={this.handleCountry} />
+          <Navbar handleCountry={this.handleCountry} handleCategory={this.handleCategory} />
           {/* <Navbar /> */}
           <Routes>
             <Route
@@ -31,56 +37,13 @@ export default class App extends Component {
               path="/"
               element={
                 <News
-                  key={`general${this.state.country}`}
+                  key={`${this.state.category}${this.state.country}`}
                   country={this.state.country}
-                  category="general"
+                  category={this.state.category}
                 />
               }
             />
-            <Route
-              exact
-              path="/sports"
-              element={
-                <News
-                  key={`sports${this.state.country}`}
-                  country={this.state.country}
-                  category="sports"
-                />
-              }
-            />
-            <Route
-              exact
-              path="/entertainment"
-              element={
-                <News
-                  key={`entertainment${this.state.country}`}
-                  country={this.state.country}
-                  category="entertainment"
-                />
-              }
-            />
-            <Route
-              exact
-              path="/technology"
-              element={
-                <News
-                  key={`technology${this.state.country}`}
-                  country={this.state.country}
-                  category="technology"
-                />
-              }
-            />
-            <Route
-              exact
-              path="/business"
-              element={
-                <News
-                  key={`business${this.state.country}`}
-                  country={this.state.country}
-                  category="business"
-                />
-              }
-            />
+            
           </Routes>
         </Router>
       </>
