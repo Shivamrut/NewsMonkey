@@ -6,16 +6,27 @@ export class News extends Component {
   constructor() {
     super();
     this.state = {
-      articles: newsCol.articles,
+      articles: [],
       loading: false,
     };
   }
 
-  // newColl = fetch('https://newsapi.org/v2/everything?q="zerodha"&from=2024-05-05&sortBy=publishedAt',{
-  //     headers:{
-  //         "X-Api-Key":"527b2700670e493d91b09cc687055fe6"
-  //     }
-  // })
+  async componentDidMount(){
+    let apiUrl = 'https://newsapi.org/v2/top-headlines?country=us'
+    let data = await fetch(apiUrl,{
+      headers:{
+          "X-Api-Key":"527b2700670e493d91b09cc687055fe6"
+      }
+  })
+  let parsedData = await data.json()
+  console.log(parsedData)
+  this.setState({
+    articles : parsedData.articles
+  })
+  }
+
+
+  
   render() {
     return (
       <>
