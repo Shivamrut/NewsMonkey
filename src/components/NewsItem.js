@@ -2,17 +2,30 @@ import React, { Component } from "react";
 
 export class NewsItem extends Component {
   render() {
-    let { title, author, description, url, img } = this.props;
-    let defImg = "https://www.shutterstock.com/shutterstock/photos/1928997539/display_1500/stock-vector-breaking-news-template-with-d-red-and-blue-badge-breaking-news-text-on-dark-blue-with-earth-and-1928997539.jpg"
+    let { title, author, description, url, img, date,publisher } = this.props;
+    let defImg = "https://w7.pngwing.com/pngs/422/126/png-transparent-newspaper-computer-icons-symbol-news-icon-text-logo-news.png"
 
     return (
       <>
-        <div className="card p-3 m-3" >
-          <img src={img?img:defImg} className="card-img-top" alt="..." />
+        <div className="card p-3 m-3">
+          <img src={img ? img : defImg} className="card-img-top" alt="..." />
           <div className="card-body">
-            <h5 className="card-title">{title?title.slice(0, 40):""}...</h5>
-            <h6 className="card-subtitle mb-2 text-body-secondary">{author}</h6>
-            <p className="card-text">{description? description.slice(0, 80):""}...</p>
+            <span className="position-absolute top-0 start-50 translate-middle badge  bg-success" style={{zIndex:1}}>
+              {publisher}
+            </span>
+
+            <h5 className="card-title">{title ? title.slice(0, 40) : ""}...</h5>
+            <h6 className="card-subtitle mb-2 text-body-secondary">
+              {author ? author : "Unknown"}
+            </h6>
+            <p className="card-text">
+              {description ? description.slice(0, 80) : ""}...
+            </p>
+            <p className="card-text">
+              <small className="text-muted">
+                {new Date(date).toGMTString()}
+              </small>
+            </p>
             <a
               href={url}
               target="_blank"
