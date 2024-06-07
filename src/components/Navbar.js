@@ -2,8 +2,19 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 
 export class Navbar extends Component {
-  handleCountry = (country) => {
+
+  constructor(){
+    super()
+    this.state = {
+      country : "Country"
+    }
+  }
+  handleCountry = (country,element) => {
     this.props.handleCountry(country);
+    // console.log(element.target.text)
+    this.setState({
+      country : element.target.text
+    })
   };
   handleCategory = (category) => {
     this.props.handleCategory(category);
@@ -47,14 +58,14 @@ export class Navbar extends Component {
                     data-bs-toggle="dropdown"
                     aria-expanded="false"
                   >
-                    Country
+                    {this.state.country}
                   </Link>
                   <ul className="dropdown-menu">
                     <li>
                       <Link
                         className="dropdown-item"
-                        onClick={() => {
-                          this.handleCountry("in");
+                        onClick={(e) => {
+                          this.handleCountry("in",e);
                         }}
                       >
                         India
@@ -63,8 +74,8 @@ export class Navbar extends Component {
                     <li>
                       <Link
                         className="dropdown-item"
-                        onClick={() => {
-                          this.handleCountry("gb");
+                        onClick={(e) => {
+                          this.handleCountry("gb",e);
                         }}
                       >
                         UK
@@ -73,8 +84,8 @@ export class Navbar extends Component {
                     <li>
                       <Link
                         className="dropdown-item"
-                        onClick={() => {
-                          this.handleCountry("us");
+                        onClick={(e) => {
+                          this.handleCountry("us",e);
                         }}
                       >
                         USA
@@ -83,8 +94,8 @@ export class Navbar extends Component {
                     <li>
                       <Link
                         className="dropdown-item"
-                        onClick={() => {
-                          this.handleCountry("jp");
+                        onClick={(e) => {
+                          this.handleCountry("jp",e);
                         }}
                       >
                         Japan

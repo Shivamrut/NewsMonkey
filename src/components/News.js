@@ -3,8 +3,8 @@ import NewsItem from "./NewsItem";
 import Spinner from "./Spinner";
 
 export class News extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       articles: [],
       loading: false,
@@ -13,7 +13,12 @@ export class News extends Component {
       maxPages: 1,
       
     };
+    document.title = `NewsMonkey - ${this.capitalizeFirstLetter(props.category)}`
+
   }
+  capitalizeFirstLetter= (string)=> {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+}
 
   async componentDidMount() {
     this.setState({
@@ -75,7 +80,7 @@ export class News extends Component {
     return (
       <>
         <div className="container my-3 ">
-          <h1 className="text-center">NewsMonkey - Top Headlines</h1>
+          <h1 className="text-center">NewsMonkey - Top {this.capitalizeFirstLetter(this.props.category)} Headlines</h1>
 
           {!this.state.loading && (
             <div className="container d-flex justify-content-center">
