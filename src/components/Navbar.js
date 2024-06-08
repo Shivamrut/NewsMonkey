@@ -191,10 +191,10 @@ export class Navbar extends Component {
                         id="flexSwitchCheckDefault"
                       />
                       <label
-                        className="form-check-label"
+                        className="form-check-label text-secondary"
                         htmlFor="flexSwitchCheckDefault"
                       >
-                        Page/Scroll
+                         {this.props.page? "Scroll":"Page"}
                       </label>
                     </div>
                   </div>
