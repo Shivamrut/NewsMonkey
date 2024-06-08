@@ -2,32 +2,32 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 
 export class Navbar extends Component {
-
-  constructor(){
-    super()
+  constructor() {
+    super();
     this.state = {
-      country : "Country"
-    }
+      country: "Country",
+    };
   }
-  handleCountry = (country,element) => {
+  handleCountry = (country, element) => {
     this.props.handleCountry(country);
     // console.log(element.target.text)
     this.setState({
-      country : element.target.text
-    })
+      country: element.target.text,
+    });
   };
   handleCategory = (category) => {
     this.props.handleCategory(category);
   };
+  handlePageScroll = ()=>{
+    this.props.handlePageScroll()
+  }
 
   render() {
     return (
       <>
         <nav className="navbar navbar-expand-lg bg-body-tertiary">
           <div className="container-fluid">
-            <div className="navbar-brand" >
-              NewsMonkey
-            </div>
+            <div className="navbar-brand">NewsMonkey</div>
             <button
               className="navbar-toggler"
               type="button"
@@ -44,8 +44,6 @@ export class Navbar extends Component {
               id="navbarSupportedContent"
             >
               <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-                
-
                 <li className="nav-item dropdown">
                   <Link
                     className="nav-link dropdown-toggle"
@@ -61,7 +59,7 @@ export class Navbar extends Component {
                       <Link
                         className="dropdown-item"
                         onClick={(e) => {
-                          this.handleCountry("in",e);
+                          this.handleCountry("in", e);
                         }}
                       >
                         India
@@ -71,7 +69,7 @@ export class Navbar extends Component {
                       <Link
                         className="dropdown-item"
                         onClick={(e) => {
-                          this.handleCountry("gb",e);
+                          this.handleCountry("gb", e);
                         }}
                       >
                         UK
@@ -81,7 +79,7 @@ export class Navbar extends Component {
                       <Link
                         className="dropdown-item"
                         onClick={(e) => {
-                          this.handleCountry("us",e);
+                          this.handleCountry("us", e);
                         }}
                       >
                         USA
@@ -91,7 +89,7 @@ export class Navbar extends Component {
                       <Link
                         className="dropdown-item"
                         onClick={(e) => {
-                          this.handleCountry("jp",e);
+                          this.handleCountry("jp", e);
                         }}
                       >
                         Japan
@@ -130,7 +128,7 @@ export class Navbar extends Component {
                         Sports
                       </Link>
                     </li>
-                    
+
                     <li>
                       <Link
                         className="dropdown-item"
@@ -181,8 +179,25 @@ export class Navbar extends Component {
                         Science
                       </Link>
                     </li>
-                    
                   </ul>
+                </li>
+                <li className="nav-item">
+                  <div className="nav-link active" aria-current="page" onClick={this.handlePageScroll}>
+                    <div className="form-check form-switch">
+                      <input
+                        className="form-check-input"
+                        type="checkbox"
+                        role="switch"
+                        id="flexSwitchCheckDefault"
+                      />
+                      <label
+                        className="form-check-label"
+                        htmlFor="flexSwitchCheckDefault"
+                      >
+                        Page/Scroll
+                      </label>
+                    </div>
+                  </div>
                 </li>
               </ul>
             </div>
@@ -194,5 +209,3 @@ export class Navbar extends Component {
 }
 
 export default Navbar;
-
-

@@ -9,7 +9,13 @@ export default class App extends Component {
     this.state = {
       country: "in",
       category: "general",
+      page : true
     };
+  }
+  handlePageScroll = ()=>{
+    this.setState({
+      page : !this.state.page
+    })
   }
   handleCountry = (country) => {
     this.setState({
@@ -29,7 +35,7 @@ export default class App extends Component {
     return (
       <>
         <Router>
-          <Navbar handleCountry={this.handleCountry} handleCategory={this.handleCategory} />
+          <Navbar handleCountry={this.handleCountry} handleCategory={this.handleCategory} handlePageScroll={this.handlePageScroll}/>
           {/* <Navbar /> */}
           <Routes>
             <Route
@@ -39,9 +45,10 @@ export default class App extends Component {
                 
                 <News
                 
-                  key={`${this.state.category}${this.state.country}`}
+                  key={`${this.state.category}${this.state.country}${this.state.page}`}
                   country={this.state.country}
                   category={this.state.category}
+                  pageOrScroll={this.state.page}
                 />
               }
             />

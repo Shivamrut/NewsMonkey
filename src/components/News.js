@@ -106,7 +106,7 @@ export class News extends Component {
   render() {
     return (
       <>
-        {/* To use Infine Scroll instead of pagination */}
+      {this.props.pageOrScroll ? 
         <>
           <div className="container my-3 ">
             <h1 className="text-center">
@@ -157,11 +157,10 @@ export class News extends Component {
               </div>
             </div>
           </InfiniteScroll>
-        </>
+        </>:
 
-        {/* To use Pagination instead of Infinite scroll */}
         <>
-          {/*<div className="container my-3 ">
+          <div className="container my-3 ">
             <h1 className="text-center">NewsMonkey - Top Headlines</h1>
 
             {!this.state.loading && (
@@ -240,8 +239,9 @@ export class News extends Component {
                 </nav>
               </div>
             )}
-          </div> */}
+          </div>
         </>
+  }
       </>
     );
   }
