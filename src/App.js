@@ -12,10 +12,10 @@ export default class App extends Component {
     };
   }
   handleCountry = (country) => {
-    // console.log(country);
     this.setState({
       country: country,
     });
+    
   };
   handleCategory = (category) => {
     this.setState({
@@ -36,7 +36,9 @@ export default class App extends Component {
               exact
               path="/"
               element={
+                
                 <News
+                
                   key={`${this.state.category}${this.state.country}`}
                   country={this.state.country}
                   category={this.state.category}
