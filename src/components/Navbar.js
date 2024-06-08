@@ -25,9 +25,9 @@ export class Navbar extends Component {
       <>
         <nav className="navbar navbar-expand-lg bg-body-tertiary">
           <div className="container-fluid">
-            <Link className="navbar-brand" to="/">
+            <div className="navbar-brand" >
               NewsMonkey
-            </Link>
+            </div>
             <button
               className="navbar-toggler"
               type="button"
@@ -44,11 +44,7 @@ export class Navbar extends Component {
               id="navbarSupportedContent"
             >
               <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-                <li className="nav-item">
-                  <Link className="nav-link active" aria-current="page" to="/">
-                    Home
-                  </Link>
-                </li>
+                
 
                 <li className="nav-item dropdown">
                   <Link
@@ -134,16 +130,7 @@ export class Navbar extends Component {
                         Sports
                       </Link>
                     </li>
-                    <li>
-                      <Link
-                        className="dropdown-item"
-                        onClick={() => {
-                          this.handleCategory("general");
-                        }}
-                      >
-                        General
-                      </Link>
-                    </li>
+                    
                     <li>
                       <Link
                         className="dropdown-item"
