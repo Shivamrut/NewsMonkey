@@ -10,7 +10,6 @@ export class Navbar extends Component {
   }
   handleCountry = (country, element) => {
     this.props.handleCountry(country);
-    // console.log(element.target.text)
     this.setState({
       country: element.target.text,
     });
@@ -25,7 +24,7 @@ export class Navbar extends Component {
   render() {
     return (
       <>
-        <nav className="navbar navbar-expand-lg bg-body-tertiary">
+        <nav className="navbar fixed-top navbar-expand-lg bg-body-tertiary">
           <div className="container-fluid">
             <div className="navbar-brand">NewsMonkey</div>
             <button

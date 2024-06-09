@@ -25,7 +25,7 @@ export class News extends Component {
       totalResults: 0,
     };
 
-    document.title = `NewsMonkey - ${capitalizeFirstLetter(props.category)}, ${capitalizeFirstLetter(props.country)}`
+    document.title = `NewsMonkey - ${this.capitalizeFirstLetter(props.category)}, ${this.capitalizeFirstLetter(props.country)}`
   }
 
   capitalizeFirstLetter = (string) => {
@@ -259,8 +259,10 @@ async function loadApi(page, pageSize, country, category, setProgress) {
   let apiUrl = `https://newsapi.org/v2/top-headlines?country=${country}&page=${page}&pageSize=${pageSize}&category=${category}`;
   let data = await fetch(apiUrl, {
     headers: {
-      "X-Api-Key": "527b2700670e493d91b09cc687055fe6",
+       // "X-Api-Key": "527b2700670e493d91b09cc687055fe6",
       // "X-Api-Key": "1c8d75da1fd042c99319f91100e913bb",
+      // "X-Api-Key": "f7a16cc2577343daa44ae74a433277e5",
+      "X-Api-Key": "591ce9e527984fd288968a75d54af50a",
     },
   });
   let parsedData = await data.json();
