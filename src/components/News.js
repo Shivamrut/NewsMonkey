@@ -25,7 +25,9 @@ export class News extends Component {
       totalResults: 0,
     };
 
-    document.title = `NewsMonkey - ${this.capitalizeFirstLetter(props.category)}, ${this.capitalizeFirstLetter(props.country)}`
+    document.title = `NewsMonkey - ${this.capitalizeFirstLetter(
+      props.category
+    )}, ${this.capitalizeFirstLetter(props.country)}`;
   }
 
   capitalizeFirstLetter = (string) => {
@@ -66,7 +68,6 @@ export class News extends Component {
     this.setState({
       page: this.state.page + 1,
       articles: parsedData.articles,
-      maxPages: Math.ceil(parsedData.totalResults / this.state.pageSize),
       loading: false,
     });
   };
@@ -85,12 +86,10 @@ export class News extends Component {
     this.setState({
       page: this.state.page - 1,
       articles: parsedData.articles,
-      maxPages: Math.ceil(parsedData.totalResults / this.state.pageSize),
       loading: false,
     });
   };
   fetchMoreData = async () => {
-    
     let parsedData = await loadApi(
       this.state.page + 1,
       this.state.pageSize,
@@ -104,10 +103,32 @@ export class News extends Component {
     });
   };
 
+  goToPage = async (pageIndex) => {
+    this.setState({
+      loading: true,
+    });
+
+    let parsedData = await loadApi(
+      pageIndex,
+      this.state.pageSize,
+      this.props.country,
+      this.props.category,
+      this.props.setProgress
+    );
+    this.setState({
+      page: pageIndex,
+      articles: parsedData.articles,
+      loading: false,
+    });
+  };
+
   render() {
     return (
       <>
-        <div className="container " style={{marginTop:"5rem",marginBottom:"1rem"}}>
+        <div
+          className="container "
+          style={{ marginTop: "5rem", marginBottom: "1rem" }}
+        >
           <h1 className="text-center">
             NewsMonkey - Top {this.capitalizeFirstLetter(this.props.category)}{" "}
             Headlines
@@ -176,6 +197,23 @@ export class News extends Component {
                           &larr; Previous
                         </button>
                       </li>
+                      {Array.from({ length: this.state.maxPages }, (_, index) => {
+                      return (
+                        <>
+                          <li key={`top${index}`} className="page-item">
+                            <button
+                              type="button"
+                              className={`btn btn-light my-3 mx-1 ${
+                                this.state.page === index + 1 ? "active" : ""
+                              }`}
+                              onClick={() => this.goToPage(index+1)}
+                            >
+                              {index + 1}
+                            </button>
+                          </li>
+                        </>
+                      );
+                    })}
                       <li className="page-item">
                         <button
                           type="button"
@@ -232,6 +270,23 @@ export class News extends Component {
                           &larr; Previous
                         </button>
                       </li>
+                      {Array.from({ length: this.state.maxPages }, (_, index) => {
+                      return (
+                        <>
+                          <li key={`bottom${index}`} className="page-item">
+                            <button
+                              type="button"
+                              className={`btn btn-light my-3 mx-1 ${
+                                this.state.page === index + 1 ? "active" : ""
+                              }`}
+                              onClick={() => this.goToPage(index+1)}
+                            >
+                              {index + 1}
+                            </button>
+                          </li>
+                        </>
+                      );
+                    })}
                       <li className="page-item">
                         <button
                           type="button"
@@ -259,10 +314,11 @@ async function loadApi(page, pageSize, country, category, setProgress) {
   let apiUrl = `https://newsapi.org/v2/top-headlines?country=${country}&page=${page}&pageSize=${pageSize}&category=${category}`;
   let data = await fetch(apiUrl, {
     headers: {
-       // "X-Api-Key": "527b2700670e493d91b09cc687055fe6",
+      // "X-Api-Key": "527b2700670e493d91b09cc687055fe6",
       // "X-Api-Key": "1c8d75da1fd042c99319f91100e913bb",
       // "X-Api-Key": "f7a16cc2577343daa44ae74a433277e5",
-      "X-Api-Key": "591ce9e527984fd288968a75d54af50a",
+      // "X-Api-Key": "591ce9e527984fd288968a75d54af50a",
+      "X-Api-Key": "66eea4c1e6db4b5bb60dd668d9f46ca5",
     },
   });
   let parsedData = await data.json();
