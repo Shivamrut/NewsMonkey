@@ -1,3 +1,3 @@
 # NewsMonkey 
 ***
-## Class based Components
+## Function based Components
