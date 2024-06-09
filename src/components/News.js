@@ -25,9 +25,7 @@ export class News extends Component {
       totalResults: 0,
     };
 
-    document.title = `NewsMonkey - ${this.capitalizeFirstLetter(
-      props.category
-    )}`;
+    document.title = `NewsMonkey - ${capitalizeFirstLetter(props.category)}, ${capitalizeFirstLetter(props.country)}`
   }
 
   capitalizeFirstLetter = (string) => {
