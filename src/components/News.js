@@ -180,7 +180,7 @@ function News(props) {
                         disabled={page <= 1}
                         onClick={handlePrev}
                       >
-                        &larr; Previous
+                        &larr; 
                       </button>
                     </li>
                     {Array.from({ length: maxPages }, (_, index) => {
@@ -208,7 +208,7 @@ function News(props) {
                         disabled={page >= maxPages}
                         onClick={handleNext}
                       >
-                        Next &rarr;
+                        &rarr;
                       </button>
                     </li>
                   </ul>
@@ -255,7 +255,7 @@ function News(props) {
                         disabled={page <= 1}
                         onClick={handlePrev}
                       >
-                        &larr; Previous
+                        &larr; 
                       </button>
                     </li>
                     {Array.from({ length: maxPages }, (_, index) => {
@@ -282,7 +282,7 @@ function News(props) {
                         disabled={page >= maxPages}
                         onClick={handleNext}
                       >
-                        Next &rarr;
+                        &rarr;
                       </button>
                     </li>
                   </ul>
