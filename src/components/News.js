@@ -194,7 +194,7 @@ export class News extends Component {
                           disabled={this.state.page <= 1}
                           onClick={this.handlePrev}
                         >
-                          &larr; Previous
+                          &larr; 
                         </button>
                       </li>
                       {Array.from({ length: this.state.maxPages }, (_, index) => {
@@ -221,7 +221,7 @@ export class News extends Component {
                           disabled={this.state.page >= this.state.maxPages}
                           onClick={this.handleNext}
                         >
-                          Next &rarr;
+                          &rarr;
                         </button>
                       </li>
                     </ul>
@@ -267,7 +267,7 @@ export class News extends Component {
                           disabled={this.state.page <= 1}
                           onClick={this.handlePrev}
                         >
-                          &larr; Previous
+                          &larr;
                         </button>
                       </li>
                       {Array.from({ length: this.state.maxPages }, (_, index) => {
@@ -294,7 +294,7 @@ export class News extends Component {
                           disabled={this.state.page >= this.state.maxPages}
                           onClick={this.handleNext}
                         >
-                          Next &rarr;
+                          &rarr;
                         </button>
                       </li>
                     </ul>
