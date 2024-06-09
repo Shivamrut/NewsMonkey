@@ -109,7 +109,7 @@ export class News extends Component {
   render() {
     return (
       <>
-        <div className="container my-3 ">
+        <div className="container " style={{marginTop:"5rem",marginBottom:"1rem"}}>
           <h1 className="text-center">
             NewsMonkey - Top {this.capitalizeFirstLetter(this.props.category)}{" "}
             Headlines
