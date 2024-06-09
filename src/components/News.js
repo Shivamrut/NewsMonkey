@@ -11,7 +11,8 @@ async function loadApi(page, pageSize, country, category, setProgress) {
       // "X-Api-Key": "527b2700670e493d91b09cc687055fe6",
       // "X-Api-Key": "1c8d75da1fd042c99319f91100e913bb",
       // "X-Api-Key": "f7a16cc2577343daa44ae74a433277e5",
-      "X-Api-Key": "591ce9e527984fd288968a75d54af50a",
+      // "X-Api-Key": "591ce9e527984fd288968a75d54af50a",
+      "X-Api-Key": "66eea4c1e6db4b5bb60dd668d9f46ca5",
     },
   });
   let parsedData = await data.json();
@@ -66,7 +67,6 @@ function News(props) {
     );
     setPage(page + 1);
     setArticles(parsedData.articles);
-    setMaxPages(Math.ceil(parsedData.totalResults / pageSize));
     setLoading(false);
   };
   const handlePrev = async () => {
@@ -81,7 +81,6 @@ function News(props) {
     );
     setPage(page - 1);
     setArticles(parsedData.articles);
-    setMaxPages(Math.ceil(parsedData.totalResults / pageSize));
     setLoading(false);
   };
   const fetchMoreData = async () => {
@@ -94,8 +93,22 @@ function News(props) {
     );
     setPage(page + 1);
     setArticles(articles.concat(parsedData.articles));
-    // console.log()
   };
+
+  const goToPage = async (pageIndex)=>{
+    setLoading(true);
+
+    let parsedData = await loadApi(
+      pageIndex,
+      pageSize,
+      props.country,
+      props.category,
+      props.setProgress
+    );
+    setPage(pageIndex);
+    setArticles(parsedData.articles);
+    setLoading(false);
+  }
 
   return (
     <>
@@ -170,6 +183,24 @@ function News(props) {
                         &larr; Previous
                       </button>
                     </li>
+                    {Array.from({ length: maxPages }, (_, index) => {
+                      return (
+                        <>
+                          <li key={`top${index}`} className="page-item">
+                            <button
+                              type="button"
+                              className={`btn btn-light my-3 mx-1 ${
+                                page === index + 1 ? "active" : ""
+                              }`}
+                              onClick={() => goToPage(index+1)}
+                            >
+                              {index + 1}
+                            </button>
+                          </li>
+                        </>
+                      );
+                    })}
+
                     <li className="page-item">
                       <button
                         type="button"
@@ -227,6 +258,23 @@ function News(props) {
                         &larr; Previous
                       </button>
                     </li>
+                    {Array.from({ length: maxPages }, (_, index) => {
+                      return (
+                        <>
+                          <li key={`bottom${index}`} className="page-item">
+                            <button
+                              type="button"
+                              className={`btn btn-light my-3 mx-1 ${
+                                page === index + 1 ? "active" : ""
+                              }`}
+                              onClick={() => goToPage(index+1)}
+                            >
+                              {index + 1}
+                            </button>
+                          </li>
+                        </>
+                      );
+                    })}
                     <li className="page-item">
                       <button
                         type="button"
