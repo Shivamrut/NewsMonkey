@@ -182,13 +182,14 @@ export class Navbar extends Component {
                   </ul>
                 </li>
                 <li className="nav-item">
-                  <div className="nav-link active" aria-current="page" onClick={this.handlePageScroll}>
+                  <div className="nav-link active" aria-current="page" >
                     <div className="form-check form-switch">
                       <input
                         className="form-check-input"
                         type="checkbox"
                         role="switch"
                         id="flexSwitchCheckDefault"
+                        onClick={this.handlePageScroll}
                       />
                       <label
                         className="form-check-label text-secondary"
