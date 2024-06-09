@@ -261,8 +261,9 @@ async function loadApi(page, pageSize, country, category, setProgress) {
   let apiUrl = `https://newsapi.org/v2/top-headlines?country=${country}&page=${page}&pageSize=${pageSize}&category=${category}`;
   let data = await fetch(apiUrl, {
     headers: {
-      "X-Api-Key": "527b2700670e493d91b09cc687055fe6",
+      // "X-Api-Key": "527b2700670e493d91b09cc687055fe6",
       // "X-Api-Key": "1c8d75da1fd042c99319f91100e913bb",
+      "X-Api-Key": "f7a16cc2577343daa44ae74a433277e5"
     },
   });
   let parsedData = await data.json();
