@@ -1,200 +1,131 @@
-import React, { Component } from "react";
+import React, { useEffect, useState } from "react";
 import NewsItem from "./NewsItem";
 import Spinner from "./Spinner";
-import PropTypes from "prop-types";
 import InfiniteScroll from "react-infinite-scroll-component";
-export class News extends Component {
-  static defaultProps = {
-    country: "in",
-    pageSize: 9,
-    category: "general",
-  };
-  static propType = {
-    country: PropTypes.string,
-    pageSize: PropTypes.number,
-    category: PropTypes.string,
-  };
-  constructor(props) {
-    super(props);
-    this.state = {
-      articles: [],
-      loading: false,
-      page: 1,
-      pageSize: 9,
-      maxPages: 1,
-      totalResults: 0,
-    };
 
-    document.title = `NewsMonkey - ${this.capitalizeFirstLetter(
+async function loadApi(page, pageSize, country, category, setProgress) {
+  setProgress(30);
+  let apiUrl = `https://newsapi.org/v2/top-headlines?country=${country}&page=${page}&pageSize=${pageSize}&category=${category}`;
+  let data = await fetch(apiUrl, {
+    headers: {
+      // "X-Api-Key": "527b2700670e493d91b09cc687055fe6",
+      // "X-Api-Key": "1c8d75da1fd042c99319f91100e913bb",
+      // "X-Api-Key": "f7a16cc2577343daa44ae74a433277e5",
+      "X-Api-Key": "591ce9e527984fd288968a75d54af50a",
+    },
+  });
+  let parsedData = await data.json();
+  setProgress(100);
+  return parsedData;
+}
+
+function News(props) {
+  const [articles, setArticles] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [page, setPage] = useState(1);
+  const [pageSize, setPageSize] = useState(9);
+  const [maxPages, setMaxPages] = useState(1);
+  const [totalResults, setTotalResults] = useState(0);
+
+  useEffect(() => {
+    fetchData();
+    document.title = `NewsMonkey - ${capitalizeFirstLetter(
       props.category
-    )}`;
-  }
+    )}, ${capitalizeFirstLetter(props.country)}`;
+  }, []);
 
-  capitalizeFirstLetter = (string) => {
+  const fetchData = async () => {
+    setLoading(true);
+
+    const parsedData = await loadApi(
+      page,
+      pageSize,
+      props.country,
+      props.category,
+      props.setProgress
+    );
+    setArticles(parsedData.articles);
+    setMaxPages(Math.ceil(parsedData.totalResults / pageSize));
+    setTotalResults(parsedData.totalResults);
+    setLoading(false);
+  };
+
+  const capitalizeFirstLetter = (string) => {
     return string.charAt(0).toUpperCase() + string.slice(1);
   };
 
-  async componentDidMount() {
-    this.setState({
-      loading: true,
-    });
-    let parsedData = await loadApi(
-      this.state.page,
-      this.state.pageSize,
-      this.props.country,
-      this.props.category,
-      this.props.setProgress
-    );
-    this.setState({
-      articles: parsedData.articles,
-      maxPages: Math.ceil(parsedData.totalResults / this.state.pageSize),
-      loading: false,
-      totalResults: parsedData.totalResults,
-    });
-  }
-
-  handleNext = async () => {
-    this.setState({
-      loading: true,
-    });
+  const handleNext = async () => {
+    setLoading(true);
 
     let parsedData = await loadApi(
-      this.state.page + 1,
-      this.state.pageSize,
-      this.props.country,
-      this.props.category,
-      this.props.setProgress
+      page + 1,
+      pageSize,
+      props.country,
+      props.category,
+      props.setProgress
     );
-    this.setState({
-      page: this.state.page + 1,
-      articles: parsedData.articles,
-      maxPages: Math.ceil(parsedData.totalResults / this.state.pageSize),
-      loading: false,
-    });
+    setPage(page + 1);
+    setArticles(parsedData.articles);
+    setMaxPages(Math.ceil(parsedData.totalResults / pageSize));
+    setLoading(false);
   };
-  handlePrev = async () => {
-    this.setState({
-      loading: true,
-    });
+  const handlePrev = async () => {
+    setLoading(true);
 
     let parsedData = await loadApi(
-      this.state.page - 1,
-      this.state.pageSize,
-      this.props.country,
-      this.props.category,
-      this.props.setProgress
+      page - 1,
+      pageSize,
+      props.country,
+      props.category,
+      props.setProgress
     );
-    this.setState({
-      page: this.state.page - 1,
-      articles: parsedData.articles,
-      maxPages: Math.ceil(parsedData.totalResults / this.state.pageSize),
-      loading: false,
-    });
+    setPage(page - 1);
+    setArticles(parsedData.articles);
+    setMaxPages(Math.ceil(parsedData.totalResults / pageSize));
+    setLoading(false);
   };
-  fetchMoreData = async () => {
-    
+  const fetchMoreData = async () => {
     let parsedData = await loadApi(
-      this.state.page + 1,
-      this.state.pageSize,
-      this.props.country,
-      this.props.category,
-      this.props.setProgress
+      page + 1,
+      pageSize,
+      props.country,
+      props.category,
+      props.setProgress
     );
-    this.setState({
-      page: this.state.page + 1,
-      articles: this.state.articles.concat(parsedData.articles),
-    });
+    setPage(page + 1);
+    setArticles(articles.concat(parsedData.articles));
+    // console.log()
   };
 
-  render() {
-    return (
-      <>
-        <div className="container my-3 ">
-          <h1 className="text-center">
-            NewsMonkey - Top {this.capitalizeFirstLetter(this.props.category)}{" "}
-            Headlines
-          </h1>
-        </div>
-        {this.state.loading && <Spinner />}
-        {!this.props.pageOrScroll ? (
-          <>
-            <InfiniteScroll
-              dataLength={this.state.articles.length}
-              next={this.fetchMoreData}
-              hasMore={this.state.articles.length !== this.state.totalResults}
-              loader={<Spinner />}
-              endMessage={
-                <p className="text-secondary" style={{ textAlign: "center" }}>
-                  <br />
-                  <b>End of Content</b>
-                  <br />
-                </p>
-              }
-            >
-              <div className="container my-3">
-                <div className="row">
-                  {this.state.articles.map((e) => {
-                    let {
-                      title,
-                      author,
-                      description,
-                      url,
-                      urlToImage,
-                      publishedAt,
-                      source,
-                    } = e;
-                    return (
-                      <div className="col-md-4" key={url}>
-                        <NewsItem
-                          title={title}
-                          author={author}
-                          description={description}
-                          url={url}
-                          img={urlToImage}
-                          date={publishedAt}
-                          publisher={source.name}
-                        />
-                      </div>
-                    );
-                  })}
-                </div>
-              </div>
-            </InfiniteScroll>
-          </>
-        ) : (
-          <>
-            <div className="container my-3 ">
-              {!this.state.loading && (
-                <div className="container d-flex justify-content-center">
-                  <nav aria-label="Page navigation example">
-                    <ul className="pagination">
-                      <li className="page-item">
-                        <button
-                          type="button"
-                          className="btn btn-secondary  m-3"
-                          disabled={this.state.page <= 1}
-                          onClick={this.handlePrev}
-                        >
-                          &larr; Previous
-                        </button>
-                      </li>
-                      <li className="page-item">
-                        <button
-                          type="button"
-                          className="btn btn-secondary  m-3"
-                          disabled={this.state.page >= this.state.maxPages}
-                          onClick={this.handleNext}
-                        >
-                          Next &rarr;
-                        </button>
-                      </li>
-                    </ul>
-                  </nav>
-                </div>
-              )}
-
+  return (
+    <>
+      <div
+        className="container  "
+        style={{ marginTop: "5rem", marginBottom: "1rem" }}
+      >
+        <h1 className="text-center">
+          NewsMonkey - Top {capitalizeFirstLetter(props.category)} Headlines
+        </h1>
+      </div>
+      {loading && <Spinner />}
+      {!props.pageOrScroll ? (
+        <>
+          <InfiniteScroll
+            dataLength={articles.length}
+            next={fetchMoreData}
+            hasMore={articles.length !== totalResults}
+            loader={<Spinner />}
+            endMessage={
+              <p className="text-secondary" style={{ textAlign: "center" }}>
+                <br />
+                <b>End of Content</b>
+                <br />
+              </p>
+            }
+          >
+            <div className="container my-3">
               <div className="row">
-                {this.state.articles.map((e) => {
+                {articles.map((e) => {
                   let {
                     title,
                     author,
@@ -219,56 +150,102 @@ export class News extends Component {
                   );
                 })}
               </div>
-
-              {!this.state.loading && (
-                <div className="container d-flex justify-content-center">
-                  <nav aria-label="Page navigation example">
-                    <ul className="pagination">
-                      <li className="page-item">
-                        <button
-                          type="button"
-                          className="btn btn-secondary  m-3"
-                          disabled={this.state.page <= 1}
-                          onClick={this.handlePrev}
-                        >
-                          &larr; Previous
-                        </button>
-                      </li>
-                      <li className="page-item">
-                        <button
-                          type="button"
-                          className="btn btn-secondary  m-3"
-                          disabled={this.state.page >= this.state.maxPages}
-                          onClick={this.handleNext}
-                        >
-                          Next &rarr;
-                        </button>
-                      </li>
-                    </ul>
-                  </nav>
-                </div>
-              )}
             </div>
-          </>
-        )}
-      </>
-    );
-  }
-}
+          </InfiniteScroll>
+        </>
+      ) : (
+        <>
+          <div className="container my-3 ">
+            {!loading && (
+              <div className="container d-flex justify-content-center">
+                <nav aria-label="Page navigation example">
+                  <ul className="pagination">
+                    <li className="page-item">
+                      <button
+                        type="button"
+                        className="btn btn-secondary  m-3"
+                        disabled={page <= 1}
+                        onClick={handlePrev}
+                      >
+                        &larr; Previous
+                      </button>
+                    </li>
+                    <li className="page-item">
+                      <button
+                        type="button"
+                        className="btn btn-secondary  m-3"
+                        disabled={page >= maxPages}
+                        onClick={handleNext}
+                      >
+                        Next &rarr;
+                      </button>
+                    </li>
+                  </ul>
+                </nav>
+              </div>
+            )}
 
-async function loadApi(page, pageSize, country, category, setProgress) {
-  setProgress(30);
-  let apiUrl = `https://newsapi.org/v2/top-headlines?country=${country}&page=${page}&pageSize=${pageSize}&category=${category}`;
-  let data = await fetch(apiUrl, {
-    headers: {
-      // "X-Api-Key": "527b2700670e493d91b09cc687055fe6",
-      // "X-Api-Key": "1c8d75da1fd042c99319f91100e913bb",
-      "X-Api-Key": "f7a16cc2577343daa44ae74a433277e5"
-    },
-  });
-  let parsedData = await data.json();
-  setProgress(100);
-  return parsedData;
+            <div className="row">
+              {!loading &&
+                articles.map((e) => {
+                  let {
+                    title,
+                    author,
+                    description,
+                    url,
+                    urlToImage,
+                    publishedAt,
+                    source,
+                  } = e;
+                  return (
+                    <div className="col-md-4" key={url}>
+                      <NewsItem
+                        title={title}
+                        author={author}
+                        description={description}
+                        url={url}
+                        img={urlToImage}
+                        date={publishedAt}
+                        publisher={source.name}
+                      />
+                    </div>
+                  );
+                })}
+            </div>
+
+            {!loading && (
+              <div className="container d-flex justify-content-center">
+                <nav aria-label="Page navigation example">
+                  <ul className="pagination">
+                    <li className="page-item">
+                      <button
+                        type="button"
+                        className="btn btn-secondary  m-3"
+                        disabled={page <= 1}
+                        onClick={handlePrev}
+                      >
+                        &larr; Previous
+                      </button>
+                    </li>
+                    <li className="page-item">
+                      <button
+                        type="button"
+                        className="btn btn-secondary  m-3"
+                        disabled={page >= maxPages}
+                        onClick={handleNext}
+                      >
+                        Next &rarr;
+                      </button>
+                    </li>
+                  </ul>
+                </nav>
+              </div>
+            )}
+          </div>
+        </>
+      )}
+    </>
+  );
 }
 
 export default News;
