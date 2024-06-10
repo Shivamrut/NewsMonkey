@@ -1,3 +1,5 @@
+**Note:** Branch ***newmonkey*** is class based and ***newsmonkey-fbc***  is functional based components
+***
 # NewsMonkey
 
 A React.js application that delivers the latest headlines from India, US, UK, and Japan across various categories, with a user-selectable view mode (pages or continuous scroll) and a fully responsive design.
